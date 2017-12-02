@@ -7,7 +7,7 @@ defmodule AC.Dec01 do
   end
 
   # Operation:  I generate two lists, one is the initial list of digits and one
-  # is the same list offset by one.  I then zip them together, filter out the
+  # is the same list offset by one.  I then zip them together, filter for the
   # matching elements, and sum them up.
   #
   # The code for both these problems is largely the same; the only difference
