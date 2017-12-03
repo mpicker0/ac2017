@@ -15,6 +15,17 @@ defmodule AC.Dec03 do
     do: [inst1, inst2]
   end
 
+  def for_thing_2 do
+    for times1 <- 1..100,
+    do: [
+      List.duplicate("incx", times1),
+      List.duplicate("incy", times1),
+      List.duplicate("decx", times1+1),
+      List.duplicate("decy", times1+1)
+    ]
+    |> List.flatten
+  end
+
   def test_for do
     for_thing |> List.flatten
   end
