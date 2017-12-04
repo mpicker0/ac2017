@@ -7,6 +7,10 @@
   to pass in a specific CAPCHA value)
 * December 2:  `mix run scripts/dec02.exs`.  Passing in a specific "spreadsheet"
   is not supported since there are newlines involved.
+* December 3:  `mix run scripts/dec03.exs`.  Note that if uncommented, the tests
+  will take an _extremely_ long time to run; there is a variable in the code
+  that will help somewhat, but this is not currently efficient at all.
+* December 4:  `mix run scripts/dec04.exs`
 
 ## Installation
 
