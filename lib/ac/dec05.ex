@@ -1,6 +1,8 @@
 defmodule AC.Dec05 do
   import Enum
 
+  # Part 1
+
   def maze_steps_r(maze, offset, count) do
     if offset < 0 or offset > length(maze) - 1 do
       count
@@ -23,12 +25,19 @@ defmodule AC.Dec05 do
     |> maze_steps
   end
 
+  # Part 2
+
+  def determine_new_offset_2(this_item) do
+    if (this_item >= 3), do: this_item - 1, else: this_item + 1
+  end
   def maze_steps_2_r(maze, offset, count) do
-    IO.puts("----")
-    IO.puts("maze is: ")
-    IO.inspect(maze)
-    IO.puts(:io_lib.format "offset is: ~B, count is: ~B", [offset, count])
-    -1
+    if offset < 0 or offset > length(maze) - 1 do
+      count
+    else
+      this_item = at(maze, offset)
+      new_offset = offset + this_item
+      maze_steps_2_r(List.replace_at(maze, offset, determine_new_offset_2(this_item)), new_offset, count + 1)
+    end
   end
 
   def maze_steps_2(maze) do

@@ -11,6 +11,8 @@
   will take an _extremely_ long time to run; there is a variable in the code
   that will help somewhat, but this is not currently efficient at all.
 * December 4:  `mix run scripts/dec04.exs`
+* December 5:  `mix run scripts/dec05.exs`.  Problem two takes several minutes
+  to calculate.
 
 ## Installation
 
