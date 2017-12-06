@@ -13,6 +13,7 @@
 * December 4:  `mix run scripts/dec04.exs`
 * December 5:  `mix run scripts/dec05.exs`.  Problem two takes several minutes
   to calculate.
+* December 6:  `mix run scripts/dec06.exs`.
 
 ## Installation
 
