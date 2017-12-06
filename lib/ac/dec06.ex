@@ -59,5 +59,18 @@ defmodule AC.Dec06 do
   end
 
   # Part 2
+  def cycles_in_loop_r(memory, configurations_seen, iterations) do
+    if Map.has_key?(configurations_seen, memory) do
+      iterations - Map.get(configurations_seen, memory)
+    else
+      cycles_in_loop_r(redistribute(memory), Map.put(configurations_seen, memory, iterations), iterations + 1)
+    end
+  end
+
+  def cycles_in_loop(initial) do
+    parsed_initial = String.split(initial)
+      |> map(fn(s) -> String.to_integer(s) end)
+    cycles_in_loop_r(parsed_initial, %{}, 0)
+  end
 
 end

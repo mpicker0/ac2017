@@ -52,4 +52,7 @@ defmodule AC.Dec06Test do
   end
 
   # problem 2
+  test "test case 1 (2)" do
+    assert AC.Dec06.cycles_in_loop("0 2 7 0") == 4
+  end
 end
