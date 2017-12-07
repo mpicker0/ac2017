@@ -2,5 +2,5 @@ my_problem = "516299281491169512719425276194596424291268712697155863651846937925
 
 capcha = if length(System.argv) == 0, do: my_problem, else: hd(System.argv)
 
-IO.puts(:io_lib.format "Solution for CAPCHA problem 1: ~B", [AC.Dec01.solve_capcha(capcha)])
-IO.puts(:io_lib.format "Solution for CAPCHA problem 2: ~B", [AC.Dec01.solve_capcha_2(capcha)])
+IO.puts("Solution for CAPCHA problem 1: #{AC.Dec01.solve_capcha(capcha)}")
+IO.puts("Solution for CAPCHA problem 2: #{AC.Dec01.solve_capcha_2(capcha)}")
