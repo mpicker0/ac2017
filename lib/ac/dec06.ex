@@ -53,9 +53,8 @@ defmodule AC.Dec06 do
   end
 
   def cycles_to_loop(initial) do
-    parsed_initial = String.split(initial)
-      |> map(fn(s) -> String.to_integer(s) end)
-    cycles_to_loop_r(parsed_initial, MapSet.new, 0)
+    AC.string_to_ints(initial)
+      |> cycles_to_loop_r(MapSet.new, 0)
   end
 
   # Part 2
@@ -68,9 +67,8 @@ defmodule AC.Dec06 do
   end
 
   def cycles_in_loop(initial) do
-    parsed_initial = String.split(initial)
-      |> map(fn(s) -> String.to_integer(s) end)
-    cycles_in_loop_r(parsed_initial, %{}, 0)
+    AC.string_to_ints(initial)
+      |> cycles_in_loop_r(%{}, 0)
   end
 
 end

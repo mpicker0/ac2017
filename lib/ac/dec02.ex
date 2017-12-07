@@ -38,17 +38,12 @@ defmodule AC.Dec02 do
 
   # Support functions
 
-  def parse_row(row) do
-    import String
-    split(row) |> map(fn(i) -> to_integer(i) end)
-  end
-
   # This assumes the "spreadsheet" comes in as a single string with linebreaks
   # in the right places.  It splits it on whitespace, and produces a list of
   # lists, one for each line.
   def parse_spreadsheet(spreadsheet) do
     String.split(spreadsheet, "\n")
-    |> map(fn(r) -> parse_row(r) end)
+    |> map(fn(r) -> AC.string_to_ints(r) end)
   end
 
   # User-facing functions
