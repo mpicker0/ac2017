@@ -56,37 +56,70 @@ defmodule AC.Dec07 do
 
   # Part 2
 
-  # starting at "start" find the first (presumably only) child that is
-  # unbalanced in "tree"
-  def find_unbalanced_node(tree, start) do
+  # for testing only; print out the node and the total weights of its children
+  def show_node(tree, node_name) do
+    IO.puts("---- Node info for node '#{node_name}' ----")
+    node = Map.get(tree, node_name)
+    IO.inspect(node)
+    IO.puts("total weight: #{total_weight(tree, node)}")
+    IO.puts("children:")
+    Enum.map(node.children, fn(c) ->
+      child = Map.get(tree, c)
+      IO.puts("  name: #{child.name}; weight: #{child.weight}; total weight: #{total_weight(tree, child)}")
+    end)
+    IO.puts("---- end ----")
+    node
+  end
+
+  # compute the total weight of a node (the weight of the node plus that of its
+  # children)
+  def total_weight(tree, node) do
+    # total weight is weight of this node, plus the weight of all children
+    node.children
+      |> Enum.map(fn(c) -> total_weight(tree, Map.get(tree, c)) end)
+      |> Enum.reduce(node.weight, fn(nw, acc) -> acc + nw end)
+  end
+
+  def balanced?(tree, node) do
+    # this node is balanced if all the total weights of its children are
+    uniques = Enum.uniq_by(node.children, fn(c) ->
+      total_weight(tree, Map.get(tree, c))
+    end)
+    length(uniques) <= 1
+  end
+
+  def find_deepest_unbalanced_node(tree, start) do
     this_node = Map.get(tree, start)
-    IO.puts("this_node:")
-    IO.inspect(this_node)
-    # if I'm balanced (that is, all my children are balanced)
-    if Enum.uniq_by(this_node.children, fn(c) ->
-      IO.puts("considering #{c}")
-      Map.get(tree, c).weight
-      end) == 1 do
-    #   find_unbalanced_node on each of my children
-      Enum.map(this_node.children, fn(c) -> find_unbalanced_node(tree, c) end)
-    else
-    # if I'm not balanced
-    #   return myself (start)
+
+    if Enum.all?(this_node.children, fn(c) -> balanced?(tree, Map.get(tree, c)) end) do
+      # If all my children are balanced, I must be unbalanced
       start
+    else
+      # If I have an unbalanced child (presumably just one), follow it down
+      unbalanced_child = Enum.find(this_node.children, fn(c) -> !balanced?(tree, Map.get(tree, c)) end)
+      find_deepest_unbalanced_node(tree, unbalanced_child)
     end
   end
 
-  # one of node's children has an incorrect weight; find it
-  def find_erroneous_child(tree, node) do
-    IO.puts("find_erroneous_child")
-    IO.inspect(node)
-    children = Map.get(tree, node).children |> Enum.map(fn(c) -> Map.get(tree, c) end)
-    IO.inspect(children)
+  # one of node_name's children has an incorrect weight; find the correct
+  # value that would make it work
+  def find_new_weight(tree, node_name) do
+    node = Map.get(tree, node_name)
+    children = node.children |> Enum.map(fn(c) -> Map.get(tree, c) end)
     # Assume that there must be at least three nodes in order to find the
     # one which is "wrong"
-    # Take the first three, add to a frequency map, and pick the value
-    # greater than two
-    #right
+    correct_value = children
+      |> Enum.take(3)
+      |> Enum.map(fn(c) -> total_weight(tree, c) end)
+      |> Enum.reduce(%{}, fn x, acc -> Map.update(acc, x, 1, &(&1 + 1)) end)
+      |> Map.to_list
+      |> Enum.find(fn({_, v}) -> v >= 2 end)
+      |> elem(0)
+
+    bad_node = children |>
+      Enum.find(fn(c) -> total_weight(tree, c) != correct_value end)
+    bad_node_total_weight = total_weight(tree, bad_node)
+    correct_value - (bad_node_total_weight - bad_node.weight)
   end
 
   def find_balance_weight(filename) do
@@ -98,7 +131,17 @@ defmodule AC.Dec07 do
     # TODO optimize: don't read the file twice
     root = find_root(filename)
 
-    unbalanced_node = find_unbalanced_node(tree, root)
-    find_erroneous_child(tree, unbalanced_node)
+    unbalanced_node = find_deepest_unbalanced_node(tree, root)
+    find_new_weight(tree, unbalanced_node)
+  end
+
+  def test_it(filename) do
+    tree = File.stream!(filename)
+    |> Stream.map(&String.trim/1)
+    |> Stream.map(fn(line) -> parse_line(line) end)
+    |> Enum.reduce(%{}, fn(node, acc) -> Map.put(acc, node.name, node) end)
+    Enum.map(tree, fn({k, v}) ->
+      IO.puts("node #{k} balanced: #{balanced?(tree, v)}")
+    end)
   end
 end

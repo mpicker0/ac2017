@@ -1,0 +1,16 @@
+top (1) -> one, two, three
+one (40)
+two (10) -> twoone, twotwo, twothree
+three (40)
+twoone (12) -> twoonea, twooneb, twoonec
+twotwo (4) -> twotwoa, twotwob, twotwoc
+twothree (1) -> twothreea, twothreeb, twothreec
+twoonea (1)
+twooneb (1)
+twoonec (1)
+twotwoa (2)
+twotwob (2)
+twotwoc (2)
+twothreea (3)
+twothreeb (3)
+twothreec (3)
