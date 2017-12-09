@@ -17,7 +17,7 @@ input files can be resolved correctly.
 * December 5:  `mix run scripts/dec05.exs`.  Problem two takes several minutes
   to calculate.
 * December 6:  `mix run scripts/dec06.exs`.
-* December 6:  `mix run scripts/dec07.exs`.  This could benefit from some
+* December 7:  `mix run scripts/dec07.exs`.  This could benefit from some
   cleanup; I'm using a Struct to represent the nodes, but a Map to hold the
   nodes together in a tree, and the syntax is very cumbersome, having to
   transport the tree around with each function call.
