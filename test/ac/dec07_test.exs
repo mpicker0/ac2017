@@ -27,7 +27,7 @@ defmodule AC.Dec07Test do
   # problem 2
 
   test "test case 1 (2)" do
-    assert AC.Dec07.find_balance_weight("/usr/src/myapp/ac/data/dec07_test_input.txt") == 60
+    assert AC.Dec07.find_balance_weight("data/dec07_test_input.txt") == 60
   end
 
   test "total weight calculates the weight of a node and its children" do

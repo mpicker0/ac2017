@@ -3,6 +3,9 @@
 [Advent of Code 2017](http://adventofcode.com/2017) solutions
 
 ## Running
+All scripts should be run with this directory as the current directory, so that
+input files can be resolved correctly.
+
 * December 1:  `mix run scripts/dec01.exs` (or `mix run scripts/dec01.exs 12345`
   to pass in a specific CAPCHA value)
 * December 2:  `mix run scripts/dec02.exs`.  Passing in a specific "spreadsheet"
