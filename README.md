@@ -21,6 +21,8 @@ input files can be resolved correctly.
   cleanup; I'm using a Struct to represent the nodes, but a Map to hold the
   nodes together in a tree, and the syntax is very cumbersome, having to
   transport the tree around with each function call.
+* December 8:  `mix run scripts/dec08.exs`.  Since the changes to solve part 2
+  were so minor, I just added them into the part 1 code.
 
 ## Installation
 

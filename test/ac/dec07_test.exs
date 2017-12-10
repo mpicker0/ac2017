@@ -5,7 +5,7 @@ defmodule AC.Dec07Test do
   # problem 1
 
   test "test case 1" do
-    assert AC.Dec07.find_root("/usr/src/myapp/ac/data/dec07_test_input.txt") == "tknk"
+    assert AC.Dec07.find_root("data/dec07_test_input.txt") == "tknk"
   end
 
   # support
