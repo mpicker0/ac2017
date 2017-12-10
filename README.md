@@ -16,13 +16,15 @@ input files can be resolved correctly.
 * December 4:  `mix run scripts/dec04.exs`
 * December 5:  `mix run scripts/dec05.exs`.  Problem two takes several minutes
   to calculate.
-* December 6:  `mix run scripts/dec06.exs`.
+* December 6:  `mix run scripts/dec06.exs`
 * December 7:  `mix run scripts/dec07.exs`.  This could benefit from some
   cleanup; I'm using a Struct to represent the nodes, but a Map to hold the
   nodes together in a tree, and the syntax is very cumbersome, having to
   transport the tree around with each function call.
 * December 8:  `mix run scripts/dec08.exs`.  Since the changes to solve part 2
   were so minor, I just added them into the part 1 code.
+* December 9:  `mix run scripts/dec09.exs`.  As above, the changes for part 2
+  were minimal, so some of the part 1 code was modified.
 
 ## Installation
 
