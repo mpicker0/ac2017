@@ -47,4 +47,34 @@ defmodule AC.Dec10Test do
 
     assert AC.Dec10.reverse_circular(input, 1, 5) == expected_output
   end
+
+  # Part 2
+  test "example 1 (2) - empty string" do
+    assert AC.Dec10.find_hash("") == "a2582a3a0e66e6e86e3812dcb672a272"
+  end
+
+  test "example 2 (2)" do
+    assert AC.Dec10.find_hash("AoC 2017") == "33efeb34ea91902bb2f59c9920caa6cd"
+  end
+
+  test "example 3 (2)" do
+    assert AC.Dec10.find_hash("1,2,3") == "3efbe78a8d82f29979031a4aa0b16a9d"
+  end
+
+  test "example 4 (2)" do
+    assert AC.Dec10.find_hash("1,2,4") == "63960835bcdc130f0b66d7ff4f6a5a8e"
+  end
+
+  test "compute_dense_hash example" do
+    input = [65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22,
+             65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22]
+
+    assert AC.Dec10.compute_dense_hash(input) == [64, 64]
+  end
+
+  test "hex_string example" do
+    input = [64, 7, 255]
+
+    assert AC.Dec10.hex_string(input) == "4007ff"
+  end
 end
