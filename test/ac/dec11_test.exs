@@ -2,21 +2,21 @@ defmodule AC.Dec11Test do
   use ExUnit.Case
 
   # problem 1
-  # test "example 1 (basic)" do
-  #   assert AC.Dec11.find_steps("ne,ne,ne") == 3
-  # end
-  #
-  # test "example 2 (end at starting point)" do
-  #   assert AC.Dec11.find_steps("ne,ne,sw,sw") == 0
-  # end
-  #
-  # test "example 3" do
-  #   assert AC.Dec11.find_steps("ne,ne,s,s") == 2
-  # end
-  #
-  # test "example 4" do
-  #   assert AC.Dec11.find_steps("se,sw,se,sw,sw") == 3
-  # end
+  test "example 1 (basic)" do
+    assert AC.Dec11.find_steps_s("ne,ne,ne") == 3
+  end
+
+  test "example 2 (end at starting point)" do
+    assert AC.Dec11.find_steps_s("ne,ne,sw,sw") == 0
+  end
+
+  test "example 3" do
+    assert AC.Dec11.find_steps_s("ne,ne,s,s") == 2
+  end
+
+  test "example 4" do
+    assert AC.Dec11.find_steps_s("se,sw,se,sw,sw") == 3
+  end
 
   # support
   test "list to frequency map" do
@@ -30,5 +30,9 @@ defmodule AC.Dec11Test do
 
   test "collapse pairs" do
     assert AC.Dec11.collapse_pairs([:n, :se, :s, :nw, :n]) == [:n]
+  end
+
+  test "collapse combinations" do
+    assert AC.Dec11.collapse_combinations([:ne, :s, :se]) == [:se, :se]
   end
 end
