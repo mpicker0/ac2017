@@ -16,72 +16,57 @@ defmodule AC.Dec12 do
     }
   end
 
-  # returns :true if map contains any of the items in items
-  def contains_any_of?(map, items) do
-    items
-    |> Enum.map(fn(i) -> MapSet.member?(map, i) end)
-    |> Enum.any?()
+  # base case: return a set of visited neighbors
+  def visit_neighbors(_, already_visited, []) do
+    already_visited
   end
 
-  def how_many_programs_in_input(filename) do
+  def visit_neighbors(all_programs, already_visited, programs) do
+    # want to visit all children of programs we haven't already seen
+    to_visit = Enum.map(programs, fn(p) -> Map.get(all_programs, p) end) |> List.flatten
+    filtered = Enum.filter(to_visit, fn(n) -> !MapSet.member?(already_visited, n) end)
+    new_already_visited = Enum.reduce(filtered, already_visited, fn(n, acc) -> MapSet.put(acc, n) end)
+    visit_neighbors(all_programs, new_already_visited, filtered)
+  end
+
+  def get_list_of_programs(filename) do
     File.stream!(filename)
     |> Stream.map(&String.trim/1)
     |> Stream.map(fn(line) -> parse_line(line) end)
-    |> Enum.reduce([], fn(il, acc) ->
-         #IO.inspect(il)
-         IO.puts("-- evaluating whether anything contains #{il.program}")
-         IO.puts("acc is:")
-         IO.inspect(acc)
-         IO.puts("il is:")
-         IO.inspect(il)
-         # Choose a set to operate on
-         {updated_list, program_group} = cond do
-           # Does any set in acc contain il.program?
-           Enum.any?(acc, fn(group) -> MapSet.member?(group, il.program) end) ->
-             IO.puts("1. Some set contains #{il.program}")
-             idx = Enum.find_index(acc, fn(group) -> MapSet.member?(group, il.program) end)
-             updated_group = Enum.fetch!(acc, idx) |> MapSet.put(il.program)
-             IO.puts("1. Updated group:")
-             IO.inspect(updated_group)
-             IO.puts("1. Adding these neighbors to group:")
-             IO.inspect(il.neighbors)
-             updated_group_with_neighbors = Enum.reduce(il.neighbors, updated_group, fn(n, acc) ->
-               MapSet.put(acc, n)
-             end)
-             IO.puts("1. updated_group_with_neighbors")
-             IO.inspect(updated_group_with_neighbors)
-             {List.delete_at(acc, idx), updated_group_with_neighbors}
-
-           # If not, does any set in acc contain any of il.neighbors?
-           Enum.any?(acc, fn(group) -> MapSet.member?(group, il.program) end) ->
-             IO.puts("2. Some set contains neighbors of #{il.program}")
-             idx = Enum.find_index(acc, fn(group) -> MapSet.member?(group, il.program) end)
-             updated_group = Enum.fetch!(acc, idx) |> MapSet.put(il.program)
-             updated_group_with_neighbors = Enum.reduce(il.neighbors, updated_group, fn(n, acc) ->
-               MapSet.put(List.delete_at(acc, idx), n)
-             end)
-             {List.delete_at(acc, idx), updated_group_with_neighbors}
-           #   In either of the two cases above, remove the item so it can be
-           #   added back
-           # If not, create a new set
-           true ->
-             IO.puts("3. Nothing contains #{il.program}; neighbors:")
-             IO.inspect(il.neighbors)
-             updated_group = Enum.reduce([il.program | il.neighbors], MapSet.new, fn(n, acc) -> MapSet.put(acc, n) end)
-             {acc, updated_group}
-         end
-
-         #
-         # Add this program and its neighbors to the set
-         # Add the new/updated set back to acc
-         IO.puts("updated_list and program_group:")
-         IO.inspect(updated_list)
-         IO.inspect(program_group)
-         [program_group | updated_list]
+    |> Enum.reduce(%{}, fn(il, acc) ->
+         Map.put(acc, il.program, il.neighbors)
        end)
-    |> IO.inspect
-
-    -1
   end
 
+  def how_many_programs_in_input(filename) do
+    get_list_of_programs(filename)
+    |> visit_neighbors(MapSet.new, [0])
+    |> MapSet.size
+  end
+
+  # Part 2
+
+  def get_group_count(%{}, count) do
+    IO.puts("base case")
+    count
+  end
+
+  def get_group_count(program_map, count) do
+    group = visit_neighbors(program_map, MapSet.new, [elem( hd(Map.to_list(program_map)), 0)])
+    IO.inspect(group)
+    # remove everything appearing in group from the program_list (which is actually a map)
+    # TODO
+    get_group_count(reduced_map, count + 1)
+  end
+
+  def how_many_groups_in_input(filename) do
+    all_programs = get_list_of_programs(filename)
+    get_group_count(all_programs, 0)
+  end
+
+  # Idea:
+  # Start with the list of all_programs
+  # visit_neighbors against the head item
+  # remove everything from the list of programs that appears in the result
+  # keep going until the list is empty
 end
