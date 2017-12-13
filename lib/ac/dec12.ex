@@ -46,22 +46,19 @@ defmodule AC.Dec12 do
 
   # Part 2
 
-  def get_group_count(%{}, count) do
-    IO.puts("base case")
+  def get_group_count(program_map, count) when program_map == %{} do
     count
   end
 
   def get_group_count(program_map, count) do
-    group = visit_neighbors(program_map, MapSet.new, [elem( hd(Map.to_list(program_map)), 0)])
-    IO.inspect(group)
-    # remove everything appearing in group from the program_list (which is actually a map)
-    # TODO
-    get_group_count(reduced_map, count + 1)
+    next_group = visit_neighbors(program_map, MapSet.new, [elem(hd(Map.to_list(program_map)), 0)])
+    Map.drop(program_map, MapSet.to_list(next_group))
+    |> get_group_count(count + 1)
   end
 
   def how_many_groups_in_input(filename) do
-    all_programs = get_list_of_programs(filename)
-    get_group_count(all_programs, 0)
+    get_list_of_programs(filename)
+    |> get_group_count(0)
   end
 
   # Idea:

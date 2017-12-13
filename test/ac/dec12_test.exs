@@ -10,4 +10,5 @@ defmodule AC.Dec12Test do
   test "example 1 (2)" do
     assert AC.Dec12.how_many_groups_in_input("data/dec12_test_input.txt") == 2
   end
+
 end
