@@ -27,6 +27,7 @@ input files can be resolved correctly.
   were minimal, so some of the part 1 code was modified.
 * December 10:  `mix run scripts/dec10.exs`
 * December 11:  `mix run scripts/dec11.exs`
+* December 12:  `mix run scripts/dec12.exs`
 
 ## Installation
 

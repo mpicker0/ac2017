@@ -61,9 +61,4 @@ defmodule AC.Dec12 do
     |> get_group_count(0)
   end
 
-  # Idea:
-  # Start with the list of all_programs
-  # visit_neighbors against the head item
-  # remove everything from the list of programs that appears in the result
-  # keep going until the list is empty
 end
