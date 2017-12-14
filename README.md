@@ -28,6 +28,9 @@ input files can be resolved correctly.
 * December 10:  `mix run scripts/dec10.exs`
 * December 11:  `mix run scripts/dec11.exs`
 * December 12:  `mix run scripts/dec12.exs`
+* December 13:  `mix run scripts/dec13.exs`.  Part two works in theory, but
+  takes a very long time (it hasn't actually been observed to complete yet) and
+  needs to be rethought.
 
 ## Installation
 

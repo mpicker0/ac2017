@@ -68,8 +68,9 @@ defmodule AC.Dec13 do
   # Opportunity to improve:  how far back should we go?  Just making something
   # up.  Preferably we'd only go back until we found one with zero severity,
   # then stop.
-  # This is extremely inefficient for a large firewall.
-  @back_to -30
+  # This is extremely inefficient for a large firewall.  The approach to this
+  # problem needs to be rethought.
+  @back_to -20
   def find_shortest_delay_r(firewall, firewall_length) do
     delays = for delay <- 0..@back_to,
       severity = find_severity_r(firewall, delay, firewall_length, 0, :true),
