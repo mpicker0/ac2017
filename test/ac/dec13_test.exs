@@ -40,7 +40,7 @@ defmodule AC.Dec13Test do
 
   # problem 2
   test "example 1 (2)" do
-    #assert AC.Dec13.find_shortest_delay("data/dec13_test_input.txt") == 10
+    assert AC.Dec13.find_shortest_delay("data/dec13_test_input.txt") == 10
   end
 
 end
