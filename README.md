@@ -32,6 +32,15 @@ input files can be resolved correctly.
   takes a very long time (it hasn't actually been observed to complete yet) and
   needs to be rethought.
 
+## Poking around
+To start an interactive `iex` session and try out the code live, run:
+
+    iex -S mix
+
+Then, you can execute methods directly:
+
+    AC.Dec10.find_hash("AoC 2017")
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
