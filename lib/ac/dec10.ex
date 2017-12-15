@@ -81,7 +81,9 @@ defmodule AC.Dec10 do
       |> Enum.join
   end
 
-  def find_hash(lengths) do
+  # This was added to support Day 14, where we are interested in the numerical
+  # value of the hash rather than its hex representation
+  def find_hash_binary(lengths) do
     initial_state = %State{list: Enum.to_list(0..255), pos: 0, skip: 0}
 
     processed_lengths = lengths
@@ -90,6 +92,10 @@ defmodule AC.Dec10 do
 
     hash_times(processed_lengths, initial_state, @rounds).list
       |> compute_dense_hash
+  end
+
+  def find_hash(lengths) do
+    find_hash_binary(lengths)
       |> hex_string
   end
 end
