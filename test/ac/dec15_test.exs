@@ -6,6 +6,8 @@ defmodule AC.Dec15Test do
   @start_b 8921
   @factor_a AC.Dec15.get_factor_a
   @factor_b AC.Dec15.get_factor_b
+  @multiple_a AC.Dec15.get_multiple_a
+  @multiple_b AC.Dec15.get_multiple_b
 
   # problem 1
   test "example 1" do
@@ -31,4 +33,28 @@ defmodule AC.Dec15Test do
     assert gen_b |> Stream.take(5) |> Enum.to_list == answers
   end
 
+  # problem 2
+  test "example 1 (2)" do
+    # this is just the very first part of the example
+    assert AC.Dec15.final_count_2(@start_a, @start_b, 1055) == 0
+    assert AC.Dec15.final_count_2(@start_a, @start_b, 1056) == 1
+
+    # this is the entire example; it takes a long time to run (~1 minute)
+    #assert AC.Dec15.final_count_2(@start_a, @start_b) == 309
+  end
+
+  # support
+  test "filtering generator a" do
+    gen_a = AC.Dec15.filtering_generator(@start_a, @factor_a, @multiple_a)
+    answers = [1352636452, 1992081072, 530830436, 1980017072, 740335192]
+
+    assert gen_a |> Stream.take(5) |> Enum.to_list == answers
+  end
+
+  test "filtering generator b" do
+    gen_b = AC.Dec15.filtering_generator(@start_b, @factor_b, @multiple_b)
+    answers = [1233683848, 862516352, 1159784568, 1616057672, 412269392]
+
+    assert gen_b |> Stream.take(5) |> Enum.to_list == answers
+  end
 end
