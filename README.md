@@ -34,6 +34,11 @@ input files can be resolved correctly.
 * December 14:  `mix run scripts/dec14.exs`.  This isn't too efficient as it
   uses a map and creates lots of intermediate maps along the way.  Still, it
   runs quickly enough.
+* December 15:  `mix run scripts/dec15.exs`
+* December 16:  `mix run scripts/dec16.exs`.  I initially tried brute force for
+  Part 2, but it was way too slow.  Fortunately, there is a loop early on in the
+  output sequence (after 56 items, and it starts right away) and adjusting it to
+  detect the loop and omit most of the runs made it much faster.
 
 ## Poking around
 To start an interactive `iex` session and try out the code live, run:
