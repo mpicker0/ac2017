@@ -51,7 +51,7 @@ defmodule AC.Dec16Test do
   end
 
   test "find loop length" do
-    list = [1, 2, 3, 4, 5, 2, 3, 4, 5]
+    list = [0, 1, 2, 3, 4, 1, 2, 3, 4]
 
     assert AC.Dec16.loop_length(list) == 4
   end

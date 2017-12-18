@@ -39,8 +39,7 @@ input files can be resolved correctly.
   Part 2, but it was way too slow.  Fortunately, there is a loop early on in the
   output sequence (after 56 items, and it starts right away) and adjusting it to
   detect the loop and omit most of the runs made it much faster.
-* December 17:  `mix run scripts/dec17.exs`.  Part 2 is currently running very
-  slowly; I need to find an optimization.
+* December 17:  `mix run scripts/dec17.exs`
 
 ## Poking around
 To start an interactive `iex` session and try out the code live, run:
