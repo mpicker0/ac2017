@@ -88,7 +88,16 @@ defmodule AC.Dec18Test do
     assert new_state.ip == 2
   end
 
-  test "jmp moves the instruction pointer by 1 if the first operand is zero" do
+  test "jgz moves the instruction pointer backwards" do
+    inst = ["jgz X -2"]
+    state = %State{registers: %{"X" => 1}}
+
+    new_state = AC.Dec18.execute_instructions(inst, state)
+
+    assert new_state.ip == -2
+  end
+
+  test "jgz moves the instruction pointer by 1 if the first operand is zero" do
     inst = ["jgz X 2"]
     state = %State{registers: %{"X" => 0}}
 
@@ -96,4 +105,68 @@ defmodule AC.Dec18Test do
 
     assert new_state.ip == 1
   end
+
+  test "jgz handles a literal as the first operand" do
+    inst = ["jgz 1 2"]
+
+    new_state = AC.Dec18.execute_instructions(inst, %State{})
+
+    assert new_state.ip == 2
+  end
+
+  # Part 2
+  alias AC.Dec18.State2, as: State2
+
+  test "example 1 (2)" do
+    assert AC.Dec18.find_prog_1_sends("data/dec18_test_input_2.txt") == 3
+  end
+
+  test "test send, receive, send, receive combination" do
+    assert AC.Dec18.find_prog_1_sends("data/dec18_test_input_3.txt") == 4
+  end
+
+  test "test deadlock" do
+    assert AC.Dec18.find_prog_1_sends("data/dec18_test_input_4.txt") == 0
+  end
+
+  test "snd puts messages into the outbound queue and increments the send count" do
+    inst = ["snd X", "snd Y"]
+    state = %State2{registers: %{"X" => 1, "Y" => 2}}
+
+    new_state = AC.Dec18.execute_instructions_2(inst, state)
+    assert new_state.out_queue == [1, 2]
+    assert new_state.send_count == 2
+  end
+
+  test "rcv takes a message from the inbound queue" do
+    inst = ["rcv X"]
+    state = %State2{in_queue: [1, 2]}
+
+    new_state = AC.Dec18.execute_instructions_2(inst, state)
+
+    assert new_state.in_queue == [2]
+    assert Map.get(new_state.registers, "X") == 1
+  end
+
+  test "rcv sets the status to waiting if nothing is in the queue" do
+    inst = ["rcv X", "jgz X 2"]
+    state = %State2{in_queue: []}
+
+    new_state = AC.Dec18.execute_instructions_2(inst, state)
+
+    assert new_state.execution_status == :waiting
+  end
+
+  test "rcv, snd, and rcv again" do
+    inst = ["rcv X", "snd X", "rcv X"]
+    state = %State2{in_queue: [1]}
+
+    new_state = AC.Dec18.execute_instructions_2(inst, state)
+
+    assert Map.get(new_state.registers, "X") == 1
+    assert new_state.in_queue == []
+    assert new_state.out_queue == [1]
+    assert new_state.execution_status == :waiting
+  end
+
 end
