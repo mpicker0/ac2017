@@ -12,4 +12,10 @@ defmodule ACTest do
   test "whitespace-only string becomes empty list" do
     assert AC.string_to_ints("     ") == []
   end
+
+  #
+
+  test "convert a list to a frequency map" do
+    assert AC.list_to_freq_map([1, 2, 1, 3, 2]) == %{1 => 2, 2 => 2, 3 => 1}
+  end
 end
