@@ -40,6 +40,10 @@ input files can be resolved correctly.
   output sequence (after 56 items, and it starts right away) and adjusting it to
   detect the loop and omit most of the runs made it much faster.
 * December 17:  `mix run scripts/dec17.exs`
+* December 18:  `mix run scripts/dec18.exs`
+* December 19:  `mix run scripts/dec19.exs`.  Since keeping count was such an
+  easy modification, I changed my `walk_path` function to return a keyword list
+  with both the path and the count.
 
 ## Poking around
 To start an interactive `iex` session and try out the code live, run:
