@@ -79,4 +79,24 @@ defmodule AC.Dec22Test do
     assert AC.Dec22.coord_at(final_state.grid, 0, 0) == "#"
     assert AC.Dec22.coord_at(final_state.grid, -1, 0) == "#"
   end
+
+  # Part 2
+  test "100 iterations (2)" do
+    assert AC.Dec22.count_infecting_bursts_2("data/dec22_test_input.txt", 100) == 26
+  end
+
+  test "final example (2)" do
+    assert AC.Dec22.count_infecting_bursts_2("data/dec22_test_input.txt") == 2511944
+  end
+
+  # These "n iterations" tests are really more about visually inspecting the
+  # state of the grid.
+  test "one iteration (2)" do
+    assert AC.Dec22.count_infecting_bursts_2("data/dec22_test_input.txt", 1) == 0
+  end
+
+  test "two iterations (2)" do
+    assert AC.Dec22.count_infecting_bursts_2("data/dec22_test_input.txt", 2) == 0
+  end
+
 end

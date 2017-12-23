@@ -51,7 +51,7 @@ input files can be resolved correctly.
 * December 21:  `mix run scripts/dec21.exs`.  Part 2 takes a few seconds to run.
   Not sure if there is an optimization.
 * December 22:  `mix run scripts/dec22.exs`.  There are some unused debugging
-  statements in the code.
+  statements in the code.  Part 2 takes a few seconds to run.
 
 ## Poking around
 To start an interactive `iex` session and try out the code live, run:

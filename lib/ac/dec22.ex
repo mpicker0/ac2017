@@ -1,6 +1,7 @@
 defmodule AC.Dec22 do
 
   @iterations 10_000
+  @iterations_2 10_000_000
 
   # Borrowed from Dec 19
   defmodule Coord do
@@ -109,6 +110,47 @@ defmodule AC.Dec22 do
     initial_position = find_center(grid)
     initial_state = %State{grid: grid, position: initial_position}
     final_state = activity_burst(initial_state, iterations)
+    final_state.infections
+  end
+
+  # Part 2
+  def reverse(current_direction) do
+    new_direction = %{up: :down, left: :right, down: :up, right: :left}
+    Map.get(new_direction, current_direction)
+  end
+
+  def activity_burst_2(state, 0), do: state
+  def activity_burst_2(state, iterations) do
+    current_node = Map.get(state.grid, state.position, ".")
+    updates = case current_node do
+      "." -> [new_direction: turn_left(state.direction),
+              new_grid: Map.put(state.grid, state.position, "W"),
+              new_infections: state.infections]
+      "W" -> [new_direction: state.direction,
+              new_grid: Map.put(state.grid, state.position, "#"),
+              new_infections: state.infections + 1]
+      "#" -> [new_direction: turn_right(state.direction),
+              new_grid: Map.put(state.grid, state.position, "F"),
+              new_infections: state.infections]
+      "F" -> [new_direction: reverse(state.direction),
+              new_grid: Map.put(state.grid, state.position, "."),
+              new_infections: state.infections]
+    end
+
+    new_position = get_new_position(state.position, updates[:new_direction])
+    new_state = %State{grid: updates[:new_grid],
+                       position: new_position,
+                       direction: updates[:new_direction],
+                       infections: updates[:new_infections]}
+
+    activity_burst_2(new_state, iterations - 1)
+  end
+
+  def count_infecting_bursts_2(filename, iterations \\ @iterations_2) do
+    grid = parse_grid(filename)
+    initial_position = find_center(grid)
+    initial_state = %State{grid: grid, position: initial_position}
+    final_state = activity_burst_2(initial_state, iterations)
     final_state.infections
   end
 end
