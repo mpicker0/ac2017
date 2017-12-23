@@ -65,29 +65,45 @@ defmodule AC.Dec13 do
 
   # Part 2
 
-  # Opportunity to improve:  how far back should we go?  Just making something
-  # up.  Preferably we'd only go back until we found one with zero severity,
-  # then stop.
-  # This is extremely inefficient for a large firewall.  The approach to this
-  # problem needs to be rethought.
-  @back_to -20
-  def find_shortest_delay_r(firewall, firewall_length) do
-    delays = for delay <- 0..@back_to,
-      severity = find_severity_r(firewall, delay, firewall_length, 0, :true),
-      do: {delay, severity}
-    #Enum.map(delays, fn({delay, severity}) -> IO.puts("delay: #{delay}, severity: #{severity}") end)
-    {delay, _} = Enum.find(delays, fn({_, severity}) -> severity == 0 end)
-    -delay
+  # Instead of trying to represent the state of the firewall, we instead just
+  # register all the scanners in a map
+  def get_firewall_2(filename) do
+    File.stream!(filename)
+    |> Stream.map(&String.trim/1)
+    |> Stream.map(fn(line) -> String.split(line, ": ") end)
+    |> Enum.reduce(%{}, fn([d,r|_], acc) ->
+         Map.put(acc, String.to_integer(d), String.to_integer(r))
+       end)
+  end
+
+  # Return the position of the scanner at 'layer' at time 'step'.  Note that
+  # we don't attempt to show the "reversing" behavior; a scanner with four
+  # positions might show up with a position of 5 just before it repeats its
+  # cycle.  This is fine, since all we really care about is whether it's zero
+  def position_at(firewall, layer, step) do
+    scanner_steps = ((Map.get(firewall, layer) - 2) * 2) + 2
+    rem(step , scanner_steps)
+  end
+
+  def walk_firewall_r(firewall, delay, firewall_length) do
+    # Will the packet hit any scanner?
+    # If I am delaying 'delay' steps, I care about scanner at 'pos' at a time 'delay' + 'pos'
+    positions = Enum.map(firewall, fn({pos, _}) ->
+      #IO.puts("evaluating layer #{pos} with a delay of #{delay}; delay + pos is #{delay+pos}")
+      position_at(firewall, pos, delay + pos)
+    end)
+
+    if Enum.any?(positions, fn(p) -> p == 0 end) do
+      walk_firewall_r(firewall, delay + 1, firewall_length)
+    else
+      delay
+    end
   end
 
   def find_shortest_delay(filename) do
-    firewall = get_firewall(filename)
+    firewall = get_firewall_2(filename)
     {firewall_length, _} = Enum.max_by(firewall, fn({k,_}) -> k end)
-
-    # The concept of "delay" means we start "step" further and further back and
-    # keep making the run with each value until we end up with a severity of
-    # zero
-    find_shortest_delay_r(firewall, firewall_length)
+    walk_firewall_r(firewall, 0, firewall_length)
   end
 
 end
