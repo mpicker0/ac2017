@@ -44,10 +44,12 @@ input files can be resolved correctly.
 * December 19:  `mix run scripts/dec19.exs`.  Since keeping count was such an
   easy modification, I changed my `walk_path` function to return a keyword list
   with both the path and the count.
-* December 20:  `mix run scripts/dec19.exs`.   I don't attempt to find out when
+* December 20:  `mix run scripts/dec20.exs`.   I don't attempt to find out when
   the stopping condition is met; I just ran for a million iterations, then again
   for 1,000 iterations and got the same answer.  Since it's fast at 1,000
   iterations, that's good enough.
+* December 21:  `mix run scripts/dec21.exs`.  Part 2 takes a few seconds to run.
+  Not sure if there is an optimization.
 
 ## Poking around
 To start an interactive `iex` session and try out the code live, run:
