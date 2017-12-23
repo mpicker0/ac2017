@@ -27,7 +27,6 @@ defmodule AC.Dec23 do
       [instruction | operands] = Enum.at(instructions, state.ip)
         |> String.split
 
-      pretty_print_state(state)
       new_state = case instruction do
         "set" ->
           [dst, val] = operands
@@ -68,12 +67,27 @@ defmodule AC.Dec23 do
   end
 
   # Part 2
-  def find_h_value(filename) do
-    state = File.stream!(filename)
-    |> Stream.map(&String.trim/1)
-    |> Enum.to_list
-    |> execute_instructions(%State{registers: %{"a" => 1}})
-    IO.inspect(state)
-    Map.get(state.registers, "h")
+  def not_prime(n) do
+    # a number is not prime if it has factors other than 1 and itself
+    # check for divisibility by everything from 2 .. sqrt(number)
+    Enum.any?(2..round(:math.sqrt(n)), fn(i) -> rem(n, i) == 0 end)
+  end
+
+  def step_stream(start, finish, skip) do
+    Stream.unfold(start, fn(x) ->
+      {x, x + skip}
+    end)
+    |> Stream.take_while(fn(x) -> x <= finish end)
+  end
+
+  def find_h_value() do
+    # TODO remove hardcoding (or is that part of the optimization ;) )
+    lower_bound = 105700
+    upper_bound = 122700
+    skip = 17
+
+    Enum.count(step_stream(lower_bound, upper_bound, skip), fn(n) ->
+      not_prime(n)
+    end)
   end
 end

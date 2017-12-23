@@ -51,8 +51,10 @@ input files can be resolved correctly.
   Not sure if there is an optimization.
 * December 22:  `mix run scripts/dec22.exs`.  There are some unused debugging
   statements in the code.  Part 2 takes a few seconds to run.
-* December 23:  `mix run scripts/dec23.exs`.  Part 2 is not implemented yet;
-  running it causes a hang (as promised in the instructions).
+* December 23:  `mix run scripts/dec23.exs`.  I worked to translate the assembly
+  code into C; `dec23.c` is that experiment.  I did cheat a bit on this one;
+  a good hint is at this link:
+  <https://github.com/dp1/AoC17/blob/master/day23.5.txt>
 
 ## Poking around
 To start an interactive `iex` session and try out the code live, run:
