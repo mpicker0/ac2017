@@ -121,7 +121,6 @@ defmodule AC.Dec21Test do
   end
 
   test "rule map builds a map with all possible rules" do
-    rule_line = ".#./..#/### => #..#/..../..../#..#"
     expected_in = [String.codepoints(".#."), String.codepoints("..#"), String.codepoints("###")]
     expected_out = [] # doesn't matter for this test
     rule = [in: expected_in, out: expected_out]
@@ -131,8 +130,6 @@ defmodule AC.Dec21Test do
     test4 = [String.codepoints("###"), String.codepoints("..#"), String.codepoints(".#.")]
 
     all_rules = AC.Dec21.rule_map([rule])
-    IO.inspect(all_rules)
-    IO.inspect(test1)
 
     assert Map.has_key?(all_rules, test1)
     assert Map.has_key?(all_rules, test2)
