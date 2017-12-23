@@ -110,4 +110,9 @@ defmodule AC.Dec21 do
     |> Enum.count(fn(p) -> p == "#" end)
   end
 
+  # Part 2
+  def count_on_pixels_2(filename) do
+    count_on_pixels(filename, 18)
+  end
+
 end
