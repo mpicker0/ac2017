@@ -120,4 +120,9 @@ defmodule AC.Dec24Test do
     assert AC.Dec24.bridge_strength([c1, c2, c3]) == 8
   end
 
+  # Part 2
+  test "example 1 (2)" do
+    assert AC.Dec24.find_longest_bridge("data/dec24_test_input.txt") == 19
+  end
+
 end

@@ -46,7 +46,7 @@ defmodule AC.Dec24 do
     end)
   end
 
-  def find_strongest_bridge(filename) do
+  def get_bridges(filename) do
     File.stream!(filename)
     |> Stream.map(&String.trim/1)
     |> Stream.map(fn(line) ->
@@ -55,6 +55,25 @@ defmodule AC.Dec24 do
        end)
     |> Enum.to_list
     |> build_bridge_start
+  end
+
+  def find_strongest_bridge(filename) do
+    get_bridges(filename)
+    |> Enum.map(fn(b) -> bridge_strength(b) end)
+    |> Enum.max
+  end
+
+  # Part 2
+  def bridge_length(bridge) do
+    length(bridge)
+  end
+
+  def find_longest_bridge(filename) do
+    bridges = get_bridges(filename)
+    longest_length = Enum.max_by(bridges, fn(b) -> bridge_length(b) end)
+    |> bridge_length
+
+    Enum.filter(bridges, fn(b) -> bridge_length(b) == longest_length end)
     |> Enum.map(fn(b) -> bridge_strength(b) end)
     |> Enum.max
   end
