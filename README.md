@@ -55,6 +55,11 @@ input files can be resolved correctly.
   code into C; `dec23.c` is that experiment.  I did cheat a bit on this one;
   a good hint is at this link:
   <https://github.com/dp1/AoC17/blob/master/day23.5.txt>
+* December 24:  `mix run scripts/dec24.exs`
+* December 25:  `mix run scripts/dec25.exs`.  No part 2 on this puzzle.  I
+  guess I could have written code to actually parse the puzzle input and build
+  the instructions based on that, but there were only six states after all.  It
+  takes about 10 seconds to run.
 
 ## Poking around
 To start an interactive `iex` session and try out the code live, run:
